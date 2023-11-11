@@ -1,0 +1,41 @@
+{
+    "name": "42-env",
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-vscode.cpptools", // C/C++
+                "kube.42header", // 42Header
+                "MariusvanWijk-JoppeKoers.codam-norminette-3", // 42 Norminette Highlighter
+                "keyhr.42-c-format", // 42 C-Format
+                "mhutchie.git-graph", // Git Graph
+                "tomoki1207.pdf" // vscode-pdf
+            ],
+            "settings": {
+                // EDITOR
+                "editor.fontFamily": "FiraCode Nerd Font",
+                "editor.fontLigatures": true,
+                "editor.fontSize": 22,
+                "editor.tabSize": 4,
+                "editor.insertSpaces": false,
+                "editor.renderWhitespace": "all",
+                "editor.formatOnSave": true,
+                // EDITOR => Files
+                "files.autoSave": "afterDelay",
+                "files.trimTrailingWhitespace": true,
+                "files.insertFinalNewline": true,
+                // EDITOR => Terminal
+                "terminal.integrated.defaultProfile.linux": "zsh",
+                // EXT: 42Header
+                "42header.email": "xxxx@student.42.fr",
+                "42header.username": "xxxx",
+                // EXT: 42 C-Format
+                "[c]": {
+                    "editor.defaultFormatter": "keyhr.42-c-format"
+                }
+            }
+        }
+    }
+}
