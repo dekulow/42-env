@@ -1,33 +1,39 @@
-FROM ubuntu:22.04
+FROM debian:buster-slim
 
-# Update system
-RUN apt-get update && apt-get dist-upgrade -y
+ARG USERNAME=student
+ARG USER_UID=1000
+ARG USER_GID=$USER_UID
 
-# Install requirements
-RUN apt-get install -y \
-    git \
-    curl
+# Create user
+RUN groupadd --gid $USER_GID $USERNAME \
+    && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME \
+    && apt-get update \
+    && apt-get install -y sudo \
+    && echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
+    && chmod 0440 /etc/sudoers.d/$USERNAME
 
-## Install Shell ZSH
-RUN apt-get install -y \
-    zsh
+# Install necessary packages (env dev 42)
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        build-essential \
+        clang \
+        llvm \
+        libunwind-dev \
+        gdb \
+        valgrind \
+        python3 \
+        python3-pip \
+        git \
+        fish && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
-## Install GCC & Clang
-RUN apt-get install -y \
-    clang \
-    gcc
+# Upgrade pip and install norminette
+RUN python3 -m pip install --upgrade pip setuptools && \
+    python3 -m pip install norminette
 
-## Install requirements Norminette
-RUN apt-get install -y \
-    python3 \
-    python3-pip
+# Install necessary package (c-format-42 extension)
+RUN pip3 install --user c_formatter_42
 
-RUN apt-get clean
-
-## Install ZSH
-RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-
-## Install Norminette
-RUN python3 -m pip install --upgrade pip setuptools
-RUN python3 -m pip install norminette
-ENV PATH="$PATH:/home/$USERNAME/.local/bin"
+# Switch to user $USERNAME
+USER $USERNAME

@@ -6,7 +6,6 @@
     "customizations": {
         "vscode": {
             "extensions": [
-                "ms-vscode.cpptools", // C/C++
                 "kube.42header", // 42Header
                 "MariusvanWijk-JoppeKoers.codam-norminette-3", // 42 Norminette Highlighter
                 "keyhr.42-c-format", // 42 C-Format
@@ -37,5 +36,6 @@
                 }
             }
         }
-    }
+    },
+    "containerUser": "student"
 }
