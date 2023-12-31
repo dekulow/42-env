@@ -1,0 +1,9 @@
+{
+    "recommendations": [
+        "arrterian.nix-env-selector", // Nix Environment Selector
+        "kube.42header", // 42Header
+        "MariusvanWijk-JoppeKoers.codam-norminette-3", // 42 Norminette Highlighter
+        "mhutchie.git-graph", // Git Graph
+        "tomoki1207.pdf" // vscode-pdf
+    ]
+}
