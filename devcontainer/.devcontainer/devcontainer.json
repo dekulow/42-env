@@ -26,7 +26,7 @@
                 "files.trimTrailingWhitespace": true,
                 "files.insertFinalNewline": true,
                 // EDITOR => Terminal
-                "terminal.integrated.defaultProfile.linux": "zsh",
+                "terminal.integrated.defaultProfile.linux": "fish",
                 // EXT: 42Header
                 "42header.email": "xxxx@student.42.fr",
                 "42header.username": "xxxx",
