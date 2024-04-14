@@ -12,6 +12,7 @@ RUN groupadd --gid $USER_GID $USERNAME \
     && echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
     && chmod 0440 /etc/sudoers.d/$USERNAME
 
+
 # Install necessary packages (env dev 42)
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -25,15 +26,19 @@ RUN apt-get update && \
         python3-pip \
         git \
         fish && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+    apt-get clean
 
 # Upgrade pip and install norminette
 RUN python3 -m pip install --upgrade pip setuptools && \
     python3 -m pip install norminette
 
 # Install necessary package (c-format-42 extension)
-RUN pip3 install --user c_formatter_42
+RUN pip3 install c_formatter_42
 
 # Switch to user $USERNAME
 USER $USERNAME
+
+WORKDIR /home/${USERNAME}
+
+# Start with Fish Shell
+CMD [ "fish" ]
