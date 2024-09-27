@@ -21,7 +21,7 @@ RUN apt-get update && \
         python3 \
         python3-pip \
         git \
-	vim \
+	    vim \
         fish && \
     apt-get clean
 
@@ -35,7 +35,7 @@ RUN sudo apt-get update && \
 
 WORKDIR /home/${USERNAME}
 
-ENV PATH="$PATH:/home/${USERNAME}}/.local/bin"
+ENV PATH="$PATH:/home/${USERNAME}/.local/bin"
 
 # Start with Fish Shell
 CMD [ "fish" ]
