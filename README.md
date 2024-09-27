@@ -21,7 +21,7 @@ $ mv .devcontainer <your_project>
 $ git clone git@github.com:dekulow/42-env.git
 $ cd 42-env
 $ docker build -t 42-env .devcontainer/
-$ docker run -ti --rm -v ./:/home/student/<your_project> 42-env
+$ docker run -ti --rm -v ./:/home/ubuntu/<your_project> 42-env
 ```
 
 
