@@ -21,7 +21,8 @@ RUN apt-get update && \
         python3 \
         python3-pip \
         git \
-	    vim \
+  	    vim \
+        ssh \
         fish && \
     apt-get clean
 
