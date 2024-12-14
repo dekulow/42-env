@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/devcontainers/base:ubuntu
+FROM --platform=linux/amd64 mcr.microsoft.com/devcontainers/base:ubuntu
 
 # Switch user (vscode by default)
 USER vscode
@@ -17,7 +17,8 @@ RUN sudo apt-get update && \
 	git \
 	vim \
 	ssh \
-	libreadline-dev && \
+	libreadline-dev \
+	clang-format && \
 	sudo apt-get clean
 
 # Install Pipx && norminette && c_formatter_42
