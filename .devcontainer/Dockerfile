@@ -18,7 +18,10 @@ RUN sudo apt-get update && \
 	vim \
 	ssh \
 	libreadline-dev \
-	clang-format && \
+	clang-format \
+	xorg \
+	libxext-dev \
+	libbsd-dev && \
 	sudo apt-get clean
 
 # Install Pipx && norminette && c_formatter_42
