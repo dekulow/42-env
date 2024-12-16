@@ -42,12 +42,5 @@ $ docker run -ti --rm -v <path_to_your_project>:/home/ubuntu/<project_name> 42-e
 - **How to change the login42 in the header?**
 
 	Go to line 27/28 of the `devcontainer.json` file and change "xxxx" to your login42.
-- **How to enable automatic formatting?**
-
-	Add the following to the settings section in your VSCode: `"editor.formatOnSave": true`.
-
-- **Why use `--platform=linux/amd64` ?**
-
-	Using `c_formatter_42` requires `/lib64/ld-linux-x86-64.so.2`. However, the only way to get it at present is to specify a particular plaform type (x86). This [solution](https://stackoverflow.com/questions/71040681/qemu-x86-64-could-not-open-lib64-ld-linux-x86-64-so-2-no-such-file-or-direc/71611002#71611002) is temporary and I know how counterproductive it can be. It's the only solution we've found so far (in a limited time). **Note that the container can be used on any architecture.**
 
 

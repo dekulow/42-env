@@ -9,7 +9,6 @@
                 "kube.42header",
                 "MariusvanWijk-JoppeKoers.codam-norminette-3",
                 "mhutchie.git-graph",
-                "keyhr.42-c-format",
                 "DoKca.42-ft-count-line"
             ],
             "settings": {
@@ -25,11 +24,7 @@
                 "files.insertFinalNewline": true,
                 // EXT: 42Header
                 "42header.email": "xxxx@student.42.fr",
-                "42header.username": "xxxx",
-                // EXT: C-Format-42
-                "[c]": {
-                    "editor.defaultFormatter": "keyhr.42-c-format"
-                }
+                "42header.username": "xxxx"
             }
         }
     }
