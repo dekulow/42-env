@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 mcr.microsoft.com/devcontainers/base:ubuntu
+FROM mcr.microsoft.com/devcontainers/base:ubuntu
 
 # Switch user (vscode by default)
 USER vscode
@@ -18,15 +18,14 @@ RUN sudo apt-get update && \
 	vim \
 	ssh \
 	libreadline-dev \
-	clang-format \
 	xorg \
 	libxext-dev \
 	libbsd-dev && \
 	sudo apt-get clean
 
-# Install Pipx && norminette && c_formatter_42
+# Install Pipx && norminette 
 RUN sudo apt-get update && sudo apt-get install -y \
 	python3-pip \
 	python3-venv
 
-RUN pip3 install --user c_formatter_42 norminette
+RUN pip3 install --user norminette
