@@ -14,6 +14,7 @@ RUN sudo apt-get update && \
 	valgrind \
 	python3 \
 	python3-pip \
+	python3-venv \
 	git \
 	vim \
 	ssh \
@@ -22,10 +23,5 @@ RUN sudo apt-get update && \
 	libxext-dev \
 	libbsd-dev && \
 	sudo apt-get clean
-
-# Install Pipx && norminette 
-RUN sudo apt-get update && sudo apt-get install -y \
-	python3-pip \
-	python3-venv
 
 RUN pip3 install --user norminette
