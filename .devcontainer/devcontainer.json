@@ -1,31 +1,28 @@
 {
-    "name": "42-env",
-    "build": {
-        "dockerfile": "Dockerfile"
-    },
-    "customizations": {
-        "vscode": {
-            "extensions": [
-                "kube.42header",
-                "MariusvanWijk-JoppeKoers.codam-norminette-3",
-                "mhutchie.git-graph",
-                "DoKca.42-ft-count-line"
-            ],
-            "settings": {
-                // EDITOR
-                "editor.fontSize": 22,
-                "editor.tabSize": 4,
-                "editor.insertSpaces": false,
-                "editor.renderWhitespace": "all",
-                "editor.formatOnSave": true,
-                // EDITOR => Files
-                "files.autoSave": "afterDelay",
-                "files.trimTrailingWhitespace": true,
-                "files.insertFinalNewline": true,
-                // EXT: 42Header
-                "42header.email": "xxxx@student.42.fr",
-                "42header.username": "xxxx"
-            }
-        }
+  "name": "42-env",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "kube.42header",
+        "MariusvanWijk-JoppeKoers.codam-norminette-3",
+        "mhutchie.git-graph",
+        "DoKca.42-ft-count-line"
+      ],
+      "settings": {
+        "editor.fontSize": 22,
+        "editor.tabSize": 4,
+        "editor.insertSpaces": false,
+        "editor.renderWhitespace": "all",
+        "editor.formatOnSave": true,
+        "files.autoSave": "afterDelay",
+        "files.trimTrailingWhitespace": true,
+        "files.insertFinalNewline": true,
+        "42header.email": "xxxx@student.42.fr",
+        "42header.username": "xxxx"
+      }
     }
+  }
 }
