@@ -24,7 +24,8 @@ RUN apt-get update && \
     libbsd-dev \
     python3 \
     python3-pip \
-    python3-venv
+    python3-venv \
+    openssh-server
 
 # Add LLVM-TOOLCHAIN repositories
 RUN apt-get update && \
@@ -111,6 +112,11 @@ RUN apt-get autoremove -y && \
 # Remove welcome message Fish
 RUN fish -c "set -U fish_greeting"
 
+# Setup openssh-server
+RUN mkdir /var/run/sshd && \
+    echo "root:password" | chpasswd && \
+    echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
+
 WORKDIR /app
 
-CMD ["/bin/fish"]
+CMD ["/usr/sbin/sshd", "-D"]
