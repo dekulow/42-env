@@ -48,7 +48,7 @@ Requirements :
 ```bash
 $ git clone git@github.com:dekulow/42-env.git
 $ cd 42-env
-$ docker build -t 42-env -f ./Dockerfile-ssh .
+$ docker build -t 42-env -f ./ssh.Dockerfile .
 $ docker run -d -p 2222:22 -v <path_to_your_project>:/app 42-env
 $ ssh root@localhost -p 2222
 ```
