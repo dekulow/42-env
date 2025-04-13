@@ -34,6 +34,8 @@ $ docker run -ti -v <path_to_your_project>:/app 42-env
 
 > **For projects requiring a graphical interface (apple silicon only) :**
 >
+> Run the docker run command with an additional environment argument to launch a GUI. `docker run docker run -ti -e DISPLAY=host.docker.internal:0 -v <path_to_your_project>:/app 42-env`
+>
 > Before launching your program, go to your Mac's terminal and authorize xhost access to localhost with this command: `xhost +localhost`.
 >
 > If you get the error message `xhost: unable to open display ‘/private/tmp/com.apple.launchd.Dpz5F9kJ8Y/org.xquartz:0`. Restart your Mac and run the command before launching your container.
