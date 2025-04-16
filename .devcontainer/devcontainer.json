@@ -12,7 +12,8 @@
         "DoKca.42-ft-count-line"
       ],
       "settings": {
-        "editor.fontSize": 22,
+        "terminal.integrated.defaultProfile.linux": "fish",
+        "editor.fontSize": 16,
         "editor.tabSize": 4,
         "editor.insertSpaces": false,
         "editor.renderWhitespace": "all",
@@ -21,7 +22,7 @@
         "files.trimTrailingWhitespace": true,
         "files.insertFinalNewline": true,
         "42header.email": "xxxx@student.42.fr",
-        "42header.username": "xxxx"
+        "42header.username": "student"
       }
     }
   }
