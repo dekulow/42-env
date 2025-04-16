@@ -21,7 +21,7 @@
         "files.autoSave": "afterDelay",
         "files.trimTrailingWhitespace": true,
         "files.insertFinalNewline": true,
-        "42header.email": "xxxx@student.42.fr",
+        "42header.email": "student@student.42.fr",
         "42header.username": "student"
       }
     }
