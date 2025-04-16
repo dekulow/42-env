@@ -12,6 +12,7 @@ RUN apt-get update && \
     pkg-config \
     binutils \
     fish \
+    libc6-dbg \
     gnupg \
     curl \
     wget \
