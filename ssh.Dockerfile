@@ -11,7 +11,9 @@ RUN apt-get update && \
     git \
     pkg-config \
     binutils \
+    ssh \
     fish \
+    libc6-dbg \
     gnupg \
     curl \
     wget \
