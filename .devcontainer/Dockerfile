@@ -1,13 +1,16 @@
-FROM ubuntu:22.04
+FROM ubuntu:22.04 AS base
 
 ARG VERSION_MAKE=4.3
 ARG VERSION_LIB_READLINE=8.1
 ARG VERSION_VALGRIND=3.18.1
 
-# Update of the package list and install utilities
+WORKDIR /root
+
 RUN apt-get update && \
+    export DEBIAN_FRONTEND=noninteractive && \
+    # Update of the package list and install utilities
     apt-get install --no-install-recommends -y \
-    sudo \
+    wget \
     git \
     pkg-config \
     binutils \
@@ -16,7 +19,6 @@ RUN apt-get update && \
     libc6-dbg \
     gnupg \
     curl \
-    wget \
     cmake \
     meson \
     build-essential \
@@ -27,19 +29,14 @@ RUN apt-get update && \
     zlib1g-dev \
     python3 \
     python3-pip \
-    python3-venv
-
-# Add LLVM-TOOLCHAIN repositories
-RUN apt-get update && \
-    export DEBIAN_FRONTEND=noninteractive && \
+    python3-venv \
+    && \
+    # Add LLVM-TOOLCHAIN repositories
     wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - && \
     add-apt-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-12 main" && \
-    add-apt-repository ppa:ubuntu-toolchain-r/test
-
-# Install LLVM-TOOLCHAIN and GCC
-RUN apt-get update && \
-    export DEBIAN_FRONTEND=noninteractive && \
+    add-apt-repository ppa:ubuntu-toolchain-r/test && \
     apt-get install --no-install-recommends -y \
+    # Install LLVM-TOOLCHAIN and GCC
     clang \
     clang-12 \
     clang-14 \
@@ -59,46 +56,48 @@ RUN update-alternatives --install /usr/bin/clang clang /usr/bin/clang-12 100 \
     && update-alternatives --install /usr/bin/cc cc /usr/bin/clang-12 100 \
     && update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang++-12 100
 
+FROM base AS make_build
 # Setup and install Make
 RUN wget https://ftp.gnu.org/gnu/make/make-${VERSION_MAKE}.tar.gz && \
     tar -xvzf make-${VERSION_MAKE}.tar.gz && \
     cd make-${VERSION_MAKE} && \
     ./configure && \
     make && \
-    sudo make install && \
-    cd .. && \
-    rm -rf make-${VERSION_MAKE}
+    make install
 
+FROM base AS readline_build
 # Setup and install library Readline
 RUN wget https://ftp.gnu.org/gnu/readline/readline-${VERSION_LIB_READLINE}.tar.gz && \
     tar -xzvf readline-${VERSION_LIB_READLINE}.tar.gz && \
     cd readline-${VERSION_LIB_READLINE} && \
     ./configure --enable-shared && \
     make && \
-    sudo make install && \
-    sudo ldconfig && \
-    cd .. && \
-    rm -rf readline-${VERSION_LIB_READLINE}*
+    make install
 
+FROM base AS valgrind_build
 # Setup and install Valgrind
 RUN wget https://sourceware.org/pub/valgrind/valgrind-${VERSION_VALGRIND}.tar.bz2 && \
     tar -xjf valgrind-${VERSION_VALGRIND}.tar.bz2 && \
     cd valgrind-${VERSION_VALGRIND} && \
     ./configure && \
     make && \
-    make install && \
-    sudo ldconfig && \
-    cd .. && \
-    rm -rf valgrind-${VERSION_VALGRIND}*
+    make install
 
+FROM base AS mlx_build
 # Setup and install library MLX
 RUN git clone https://github.com/42paris/minilibx-linux.git && \
     cd minilibx-linux && \
-    make && \
-    sudo cp mlx.h /usr/local/include && \
-    sudo cp libmlx.a /usr/local/lib && \
-    cd .. && \
-    rm -rf minilibx-linux
+    make
+
+FROM base AS final
+# Copy the built libraries from the previous stages
+COPY --from=make_build /usr/local/bin/make /usr/local/bin/make
+COPY --from=readline_build /usr/local/lib/libreadline.* /usr/local/bin/readline
+COPY --from=valgrind_build /usr/local/bin/valgrind /usr/local/bin/valgrind
+COPY --from=mlx_build /root/minilibx-linux/mlx.h /usr/local/include/mlx.h
+COPY --from=mlx_build /root/minilibx-linux/libmlx.a /usr/local/lib/libmlx.a
+
+RUN ldconfig
 
 # Setup virtual env python and install norminette
 RUN python3 -m venv /opt/venv && \
@@ -106,10 +105,6 @@ RUN python3 -m venv /opt/venv && \
 ENV PATH="$PATH:/opt/venv/bin"
 RUN python3 -m pip install --upgrade pip setuptools && \
     python3 -m pip install norminette
-
-# Cleanup packages
-RUN apt-get autoremove -y && \
-    rm -rf /var/lib/apt/lists/*
 
 # Remove welcome message Fish
 RUN fish -c "set -U fish_greeting"
