@@ -74,15 +74,6 @@ RUN wget https://ftp.gnu.org/gnu/readline/readline-${VERSION_LIB_READLINE}.tar.g
     make && \
     make install
 
-FROM base AS valgrind_build
-# Setup and install Valgrind
-RUN wget https://sourceware.org/pub/valgrind/valgrind-${VERSION_VALGRIND}.tar.bz2 && \
-    tar -xjf valgrind-${VERSION_VALGRIND}.tar.bz2 && \
-    cd valgrind-${VERSION_VALGRIND} && \
-    ./configure && \
-    make && \
-    make install
-
 FROM base AS mlx_build
 # Setup and install library MLX
 RUN git clone https://github.com/42paris/minilibx-linux.git && \
@@ -93,11 +84,22 @@ FROM base AS final
 # Copy the built libraries from the previous stages
 COPY --from=make_build /usr/local/bin/make /usr/local/bin/make
 COPY --from=readline_build /usr/local/lib/libreadline.* /usr/local/bin/readline
-COPY --from=valgrind_build /usr/local/bin/valgrind /usr/local/bin/valgrind
 COPY --from=mlx_build /root/minilibx-linux/mlx.h /usr/local/include/mlx.h
 COPY --from=mlx_build /root/minilibx-linux/libmlx.a /usr/local/lib/libmlx.a
 
+# Run ldconfig to update the dynamic linker run-time bindings
 RUN ldconfig
+
+# Setup and install Valgrind
+RUN wget https://sourceware.org/pub/valgrind/valgrind-${VERSION_VALGRIND}.tar.bz2 && \
+    tar -xjf valgrind-${VERSION_VALGRIND}.tar.bz2 && \
+    cd valgrind-${VERSION_VALGRIND} && \
+    ./configure && \
+    make && \
+    make install && \
+    ldconfig && \
+    cd .. && \
+    rm -rf valgrind-${VERSION_VALGRIND}*
 
 # Setup virtual env python and install norminette
 RUN python3 -m venv /opt/venv && \
