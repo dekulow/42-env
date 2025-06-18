@@ -1,65 +1,119 @@
-# 42-env
+# 42-env [🇺🇸](#) | [🇫🇷](README.fr.md)
+**A faithful replication of the 42 school development environment within a container.**
 
-**A replication of the 42 school dev environment within a container.**
+*42-env provides a standardized development environment that matches the 42 Paris school setup, ensuring consistency across different host machines.*
 
-*42-env is a replication of the 42 Paris environment.*
 
-## Setup
+## Requirements
 
-### VSCode
+- Docker installed on your system
+- VS Code with Dev Containers extension (for VS Code integration)
+- [XQuartz](https://formulae.brew.sh/cask/xquartz#default) (for macOS/Apple Silicon users running GUI applications)
 
-Requirements :
-- (Apple Silicon only) [xquartz](https://formulae.brew.sh/cask/xquartz#default)
-- VSX Extension => Dev Containers
+## Setup Options
 
-```bash
-$ git clone git@github.com:dekulow/42-env.git
-$ cd 42-env
-$ cp .devcontainer <your_project>
-```
-- Finally open your project with VSCode.
-	- Command Palette => Reopen in Container (or) Rebuild and Reopen in Container
+### Option 1: VS Code Dev Container
 
-### Terminal
+The simplest way to use 42-env is through VS Code's Dev Containers feature:
 
-Requirements :
-- (Apple Silicon only) [xquartz](https://formulae.brew.sh/cask/xquartz#default)
+1. Clone this repository:
+   ```bash
+   git clone git@github.com:shiftwavedev/42-env.git
+   ```
 
-```bash
-$ git clone git@github.com:dekulow/42-env.git
-$ cd 42-env
-$ docker build -t 42-env .devcontainer/
-$ docker run -ti -v <path_to_your_project>:/app 42-env
-```
+2. Copy the .devcontainer directory to your project:
+   ```bash
+   cp -r 42-env/.devcontainer /path/to/your_project/
+   ```
 
-> **For projects requiring a graphical interface (apple silicon only) :**
->
-> Run the docker run command with an additional environment argument to launch a GUI. `docker run -ti -e DISPLAY=host.docker.internal:0 -v <path_to_your_project>:/app 42-env`
->
-> Before launching your program, go to your Mac's terminal and authorize xhost access to localhost with this command: `xhost +localhost`.
->
-> If you get the error message `xhost: unable to open display ‘/private/tmp/com.apple.launchd.Dpz5F9kJ8Y/org.xquartz:0`. Restart your Mac and run the command before launching your container.
->
-> Similarly, for security reasons, it's a good idea to remove permissions when you no longer need them. You can do this with the command `xhost -localhost`.
+3. Open your project in VS Code
+   
+4. When prompted, select "Reopen in Container" or use the Command Palette (F1 or ⌘⇧P on Mac):
+   - Type "Dev Containers: Reopen in Container"
 
-### Remote SSH
+VS Code will build the container and open your project with all the 42 environment tools and settings ready to use.
 
-Requirements :
-- (Apple Silicon only) [xquartz](https://formulae.brew.sh/cask/xquartz#default)
+<details>
+<summary><strong>💻 Running GUI Applications in VS Code</strong></summary>
+<br>
 
-```bash
-$ git clone git@github.com:dekulow/42-env.git
-$ cd 42-env
-$ docker build -t 42-env -f ./ssh.Dockerfile .
-$ docker run -d -p 2222:22 -v <path_to_your_project>:/app 42-env
-$ ssh root@localhost -p 2222
-```
+For projects requiring MLX or other graphical applications:
 
-## **FAQ**
-- **How to change the login42 in the header?**
+1. Install XQuartz on your host system (if using macOS):
+   ```bash
+   brew install --cask xquartz
+   ```
 
-	Go to line 27/28 of the `devcontainer.json` file and change "xxxx" to your login42.
+2. Before starting your VS Code session, open a terminal and run:
+   ```bash
+   xhost +localhost
+   ```
 
-- **I'm using remote-ssh what is the password?**
+3. In `.devcontainer/devcontainer.json`, ensure these settings are present:
+   ```json
+   "containerEnv": {
+     "DISPLAY": "host.docker.internal:0"
+   }
+   ```
 
-  The password is "password". And you can change it directly in the Dockerfile.ssh
+4. When you're done your session, you can restore security settings with:
+   ```bash
+   xhost -localhost
+   ```
+</details>
+
+### Option 2: Terminal/Command Line
+
+If you prefer working in a terminal:
+
+1. Clone this repository:
+   ```bash
+   git clone git@github.com:shiftwavedev/42-env.git
+   ```
+
+2. Build the Docker image:
+   ```bash
+   docker build -t 42-env 42-env/.devcontainer/
+   ```
+
+3. Run a container with your project mounted:
+   ```bash
+   docker run -ti -v /path/to/your_project:/app 42-env
+   ```
+
+4. The container will start with the Fish shell. Navigate to your mounted project:
+   ```bash
+   cd /app
+   ```
+   All 42 tools (gcc, norminette, etc.) are available in your PATH.
+
+<details>
+<summary><strong>💻 Running GUI Applications in Terminal</strong></summary>
+<br>
+
+To use MLX or other graphical applications from a terminal-launched container:
+
+1. Install XQuartz on your host system (if using macOS):
+   ```bash
+   brew install --cask xquartz
+   ```
+
+2. Before starting your container, open a terminal and run:
+   ```bash
+   xhost +localhost
+   ```
+
+3. Launch the container with the DISPLAY environment variable:
+   ```bash
+   docker run -ti -e DISPLAY=host.docker.internal:0 -v /path/to/your_project:/app 42-env
+   ```
+
+4. When you're done, you can restore security settings with:
+   ```bash
+   xhost -localhost
+   ```
+</details>
+
+## License
+
+This project is distributed under the [MIT License](LICENSE).
