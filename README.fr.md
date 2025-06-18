@@ -82,10 +82,6 @@ Si vous préférez travailler dans un terminal :
    docker run -ti -v /chemin/vers/votre_projet:/app 42-env
    ```
 
-4. Le conteneur démarrera avec le shell Fish. Naviguez vers votre projet monté :
-   ```bash
-   cd /app
-   ```
    Tous les outils 42 (gcc, norminette, etc.) sont disponibles dans votre PATH.
 
 <details>
